@@ -20,3 +20,17 @@ export interface TodoItemProps {
   openEditModal: () => void;
   confirmDelete: () => void;
 }
+
+export interface DeleteModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onDelete: () => void;
+}
+
+export interface EditModalProps {
+  visible: boolean;
+  onClose: () => void;
+  todo: Todo | null;
+  onSave: (updatedTodo: Todo) => void;
+  onChangeTitle: (title: string) => void;
+}

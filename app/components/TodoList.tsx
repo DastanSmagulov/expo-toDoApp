@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, TextInput, Button, FlatList } from "react-native";
 import TodoItem from "./TodoItem";
-import { Todo, TodoListProps } from "../interfaces/Todo";
+import { TodoListProps } from "../interfaces/Todo";
 
 const TodoList: React.FC<TodoListProps> = ({
   todos,

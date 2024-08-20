@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Modal, Button, TextInput, Text } from "react-native";
+import { View } from "react-native";
 import {
   collection,
   addDoc,
@@ -11,7 +11,8 @@ import {
 import { FIRESTORE_DB } from "../../firebaseConfig";
 import TodoList from "../components/TodoList";
 import { Todo } from "../interfaces/Todo";
-import { styles } from "../styles/styles";
+import EditModal from "../components/EditModal";
+import DeleteModal from "../components/DeleteModal";
 
 const ListScreen: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -89,58 +90,22 @@ const ListScreen: React.FC = () => {
         confirmDelete={confirmDelete}
       />
 
-      {/* Edit Modal */}
-      <Modal
-        animationType="fade"
-        transparent={true}
+      <EditModal
         visible={editModalVisible}
-        onRequestClose={() => setEditModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Edit Todo</Text>
-            <TextInput
-              style={styles.modalInput}
-              onChangeText={(text) =>
-                setEditTodo((prev) => prev && { ...prev, title: text })
-              }
-              value={editTodo?.title}
-            />
-            <View style={styles.modalButtonContainer}>
-              <Button title="Save" onPress={saveEditTodo} />
-              <Button
-                title="Cancel"
-                onPress={() => setEditModalVisible(false)}
-                color="red"
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setEditModalVisible(false)}
+        todo={editTodo}
+        onSave={saveEditTodo}
+        onChangeTitle={(title) =>
+          setEditTodo((prev) => prev && { ...prev, title })
+        }
+      />
 
       {/* Delete Modal */}
-      <Modal
-        animationType="fade"
-        transparent={true}
+      <DeleteModal
         visible={deleteModalVisible}
-        onRequestClose={() => setDeleteModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Delete Todo</Text>
-            <Text style={styles.modalText}>
-              Are you sure you want to delete this todo?
-            </Text>
-            <View style={styles.modalButtonContainer}>
-              <Button title="Delete" onPress={deleteItem} color="red" />
-              <Button
-                title="Cancel"
-                onPress={() => setDeleteModalVisible(false)}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setDeleteModalVisible(false)}
+        onDelete={deleteItem}
+      />
     </View>
   );
 };
